@@ -1,5 +1,7 @@
 # Koin Sample App
 
+This sample is the exact same example of https://github.com/tezov/koin-sample-annotations but without Koin Annotations.
+
 Check the medium story: https://medium.com/itnext/mastering-koin-scopes-beyond-singletons-and-factories-dae8b58ef54f
 
 This Android sample application demonstrates how to use:
@@ -69,6 +71,13 @@ Jetpack Compose UI + ViewModels:
 
 ``scope(named("userSession")) {
     scoped<UserSession> { error("UserSession not set") }
+    factory {
+        val session = get<UserSession>()
+        when(session) {
+            is UserSession.AdminUser -> ScopedClass("admin from scope")
+            is UserSession.NormalUser -> ScopedClass("normal user from scope")
+        }
+    }
 }``
 
 This scope is created only when logging in on the Profile screen.
@@ -93,7 +102,11 @@ Then declares the session:
 
 The UI updates to show the profile card and session details.
 
-### 3. Disconnect
+### 3. Use the scoped instance
+
+``scope?.get<ScopedClass>()``
+
+### 4. Disconnect
 The ViewModel closes the scope:
 
 ``sessionScope?.close()``
