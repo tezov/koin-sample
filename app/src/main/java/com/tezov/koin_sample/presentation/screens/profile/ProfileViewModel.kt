@@ -2,6 +2,7 @@ package com.tezov.koin_sample.presentation.screens.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tezov.koin_sample.domain.model.ScopedClass
 import com.tezov.koin_sample.domain.model.UserSession
 import com.tezov.koin_sample.domain.usecase.GetProfileNameUseCase
 import kotlinx.coroutines.delay
@@ -98,6 +99,8 @@ class ProfileViewModel(
             )
         }
     }
+
+    fun scopedClass() = sessionScope?.get<ScopedClass>()
 
     fun logout() {
         sessionScope?.close()

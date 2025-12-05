@@ -72,7 +72,9 @@ fun ProfileScreen(
             return
         }
 
-        ProfileCard(state.name)
+        val scopedClass = viewModel.scopedClass()
+
+        ProfileCard(state.name, scopedClass?.value)
         Spacer(Modifier.height(16.dp))
         Text("Role: ${state.role}")
         Spacer(Modifier.height(16.dp))
@@ -109,7 +111,10 @@ fun LoginDialog(
 }
 
 @Composable
-fun ProfileCard(name: String) {
+fun ProfileCard(
+    name: String,
+    role: String?
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(4.dp)
@@ -135,7 +140,7 @@ fun ProfileCard(name: String) {
             Column {
                 Text(name, style = MaterialTheme.typography.titleLarge)
                 Text(
-                    "Account owner",
+                    "Account owner + $role",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

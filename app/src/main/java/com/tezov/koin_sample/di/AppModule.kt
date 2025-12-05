@@ -1,6 +1,7 @@
 package com.tezov.koin_sample.di
 
 import com.tezov.koin_sample.data.LibraryRepository
+import com.tezov.koin_sample.domain.model.ScopedClass
 import com.tezov.koin_sample.domain.model.UserSession
 import com.tezov.koin_sample.domain.protocol.LibraryRepositoryProtocol
 import com.tezov.koin_sample.domain.usecase.GetFavoriteLibrariesUseCase
@@ -33,5 +34,12 @@ val appModule = module {
             error("UserSession not set")
         }
 
+        factory {
+            val session = get<UserSession>()
+            when(session) {
+                is UserSession.AdminUser -> ScopedClass("admin from scope")
+                is UserSession.NormalUser -> ScopedClass("normal user from scope")
+            }
+        }
     }
 }
